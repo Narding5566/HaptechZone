@@ -244,12 +244,13 @@ async function loadData() {
     const json = JSON.parse(text.substring(47, text.length - 2));
 
     games = json.table.rows.map(r => ({
-        name: r.c[0]?.v || "",
-        category: r.c[1]?.v || "",
-        status: r.c[2]?.v || "",
-        fix: r.c[3]?.v || "",
-        price: r.c[4]?.v || ""
-    }));
+    name: r.c[0]?.v || "",
+    category: r.c[1]?.v || "",
+    status: r.c[2]?.v || "",
+    fix: r.c[3]?.v || "",
+    price: r.c[4]?.v || "",
+    cover: r.c[5]?.v || ""
+}));
 
     renderCards(games);
     renderTable(games);
@@ -281,7 +282,7 @@ function renderCards(list) {
 
         const img = document.createElement("img");
         img.className = "game-cover";
-        img.src = `https://game-covers.vercel.app/api/search?name=${encodeURIComponent(g.name)}`;
+        img.src = g.cover || "https://via.placeholder.com/300x450?text=No+Cover";
 
         const info = document.createElement("div");
         info.className = "game-info";
