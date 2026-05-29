@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Games List</title>
+    <style>
+        .card {border:1px solid #ccc;padding:10px;border-radius:6px;margin:8px;}
+        .grid {display:flex;flex-wrap:wrap;gap:10px;}
+        .table {border-collapse: collapse; width: 100%;}
+        .table th, .table td {border:1px solid #ccc;padding:8px;}
+        .buttons {margin-bottom:15px;}
+    </style>
+</head>
+<body>
+
+<h2>Games List</h2>
+
+<div class="buttons">
+    <button onclick="setView('card')">Card View</button>
+    <button onclick="setView('table')">Table View</button>
+</div>
+
+<div class="buttons">
+    <button onclick="filterCategory('All')">All</button>
+    <button onclick="filterCategory('Action')">Action</button>
+    <button onclick="filterCategory('RPG')">RPG</button>
+    <button onclick="filterCategory('Strategy')">Strategy</button>
+</div>
+
+<select id="priceFilter" onchange="applyFilters()">
+    <option value="All">All Prices</option>
+    <option value="0-500">0 - 500</option>
+    <option value="500-1000">500 - 1000</option>
+    <option value="1000-999999">1000+</option>
+</select>
+
+<div id="output"></div>
+
+<script>
+const sheetURL = "https://docs.google.com/spreadsheets/d/1LMTiIt9qwhdCwDNC5dWl49AIg6dH3gAr_0nqcOr1kOc/gviz/tq?tqx=out:json";
+
+let rawData = [];
+let currentCategory = "All";
+let viewMode = "card";
+
+async function loadData() {
+    const res = await fetch(sheetURL);
+    const text = await res.text();
+
+    const json = JSON.parse(text.substring(47, text.length - 2)); 
+    rawData = json.table.rows.map(r => ({
+        name: r.c[0]?.v || "",
+        category: r.c[1]?.v || "",
+        status: r.c[2]?.v || "",
+        fix: r.c[3]?.v || "",
+        price: Number(r.c[4]?.v || 0)
+    }));
+
+    applyFilters();
+}
+
+function filterCategory(cat) {
+    currentCategory = cat;
+    applyFilters();
+}
+
+function applyFilters() {
+    const priceValue = document.getElementById("priceFilter").value;
+    let min = 0, max = Infinity;
+
+    if (priceValue !== "All") {
+        const parts = priceValue.split("-");
+        min = Number(parts[0]);
+        max = Number(parts[1]);
+    }
+
+    const filtered = rawData.filter(item => 
+        (currentCategory === "All" || item.category === currentCategory) &&
+        (item.price >= min && item.price <= max)
+    );
+
+    render(filtered);
+}
+
+function setView(mode) {
+    viewMode = mode;
+    applyFilters();
+}
+
+function render(data) {
+    const output = document.getElementById("output");
+    output.innerHTML = "";
+
+    if (viewMode === "card") {
+        const grid = document.createElement("div");
+        grid.className = "grid";
+        data.forEach(item => {
+            grid.innerHTML += `
+                <div class="card">
+                    <h3>${item.name}</h3>
+                    <p>Category: ${item.category}</p>
+                    <p>Status: ${item.status}</p>
+                    <p>Fix: ${item.fix}</p>
+                    <p>Price: ${item.price}</p>
+                </div>
+            `;
+        });
+        output.appendChild(grid);
+    } else {
+        let html = `<table class="table"><tr>
+            <th>Name</th><th>Category</th><th>Status</th><th>Fix</th><th>Price</th></tr>`;
+        data.forEach(item => {
+            html += `
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${item.category}</td>
+                    <td>${item.status}</td>
+                    <td>${item.fix}</td>
+                    <td>${item.price}</td>
+                </tr>`;
+        });
+        html += `</table>`;
+        output.innerHTML = html;
+    }
+}
+
+loadData();
+</script>
+
+</body>
+</html>
