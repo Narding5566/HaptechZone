@@ -176,10 +176,9 @@
 
     <select id="priceFilter" onchange="applyFilters()">
         <option value="All">All Prices</option>
-        <option value="0">₱0 (Free)</option>
-        <option value="500">₱0–₱500</option>
-        <option value="1000">₱500–₱1000</option>
-        <option value="2000">₱1000–₱2000</option>
+        <option value="50">₱50</option>
+        <option value="150">₱150</option>
+        <option value="250">₱250</option>
     </select>
 
     <!-- CATEGORY BUTTONS -->
@@ -264,7 +263,7 @@ function applyFilters() {
     const filtered = games.filter(g => {
         const matchSearch = g.name.toLowerCase().includes(search);
         const matchCat = selectedCategory === "All" || g.category === selectedCategory;
-        const matchPrice = price === "All" || Number(g.price) <= Number(price);
+        const matchPrice = price === "All" || Number(g.price) === Number(price);
 
         return matchSearch && matchCat && matchPrice;
     });
