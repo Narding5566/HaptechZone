@@ -238,7 +238,7 @@ function showTable() {
 
 /* LOAD GOOGLE SHEET */
 async function loadData() {
-    const url = "YOUR_SHEET_URL_HERE";
+    const url = "https://docs.google.com/spreadsheets/d/1LMTiIt9qwhdCwDNC5dWl49AIg6dH3gAr_0nqcOr1kOc/gviz/tq?tqx=out:json&gid=0";
     const res = await fetch(url);
     const text = await res.text();
     const json = JSON.parse(text.substring(47, text.length - 2));
