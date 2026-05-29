@@ -2,282 +2,247 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Games Library</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HaptechZone Games</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-/* Global */
-body {
-    background: #0a0a0f;
-    color: #eee;
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 0;
-}
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: #0d0d12;
+        color: white;
+    }
 
-/* Navbar */
-.navbar {
-    width: 100%;
-    background: #141422;
-    padding: 15px 25px;
-    color: #c77dff;
-    font-size: 22px;
-    font-weight: bold;
-    border-bottom: 2px solid #5a189a;
-    box-shadow: 0 0 15px #5a189a55;
-}
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 34px;
+        color: #6cb4ff;
+        text-shadow: 0 0 8px #1e90ff;
+    }
 
-/* Filters & Controls */
-.controls {
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    align-items: center;
-}
+    /* FILTERS */
+    #filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        margin: 20px auto;
+        padding: 10px;
+        max-width: 900px;
+    }
 
-input, select, button {
-    padding: 10px 14px;
-    border-radius: 6px;
-    border: none;
-    font-size: 15px;
-}
-.search-box {
-    width: 250px;
-}
+    #filters input, #filters select {
+        padding: 10px;
+        border-radius: 6px;
+        border: none;
+        outline: none;
+        font-size: 15px;
+    }
 
-button {
-    cursor: pointer;
-    background: #5a189a;
-    color: white;
-    border: 1px solid #7b2cbf;
-    transition: 0.2s;
-}
-button:hover {
-    background: #7b2cbf;
-}
+    /* PS5 STYLE CATEGORY BUTTONS */
+    .filter-btn {
+        padding: 10px 18px;
+        font-size: 15px;
+        border-radius: 20px;
+        background: linear-gradient(145deg, #1f2a3d, #0f1623);
+        border: 1px solid #6cb4ff;
+        color: #cfe6ff;
+        cursor: pointer;
+        transition: 0.25s ease;
+        box-shadow: 0 0 8px #1e90ff55;
+    }
 
-.filter-btn {
-    background: #1b1b2f;
-    border: 1px solid #5a189a;
-}
-.filter-btn.active {
-    background: #7b2cbf;
-}
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: linear-gradient(145deg, #2d415d, #122033);
+        color: white;
+        box-shadow: 0 0 16px #1e90ff;
+        transform: translateY(-2px);
+    }
 
-/* Grid View */
-.grid-view {
-    padding: 20px;
-    display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-}
+    /* VIEW TOGGLE */
+    #viewToggle {
+        text-align: center;
+        margin-top: 10px;
+    }
 
-/* Game Cards */
-.card {
-    background: #11111a;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid #5a189a55;
-    box-shadow: 0 0 10px #5a189a33;
-    transition: 0.2s;
-    text-align: center;
-}
-.card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px #7b2cbf;
-}
+    #viewToggle button {
+        padding: 8px 14px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        background: #1e90ff;
+        color: white;
+        margin: 0 6px;
+    }
 
-.card img {
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 10px;
-}
+    /* GRID CARDS */
+    #cardView {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 18px;
+        padding: 20px;
+    }
 
-/* Table View */
-.table-view {
-    display: none;
-    padding: 20px;
-}
+    .game-card {
+        background: #10141c;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 0 8px #1e90ff33;
+        transition: transform 0.25s;
+    }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background: #11111a;
-    color: white;
-}
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid #333;
-    text-align: left;
-}
-th {
-    background: #5a189a66;
-}
+    .game-card:hover {
+        transform: scale(1.03);
+    }
+
+    .game-cover {
+        width: 100%;
+        height: 420px;
+        object-fit: cover;
+        background: #0a0a0a;
+    }
+
+    .game-info {
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    .game-title {
+        font-weight: bold;
+        color: #6cb4ff;
+        font-size: 18px;
+    }
+
+    .price-tag {
+        margin-top: 6px;
+        color: #9ee0ff;
+    }
+
+    /* HOVER OVERLAY (PS5 STYLE) */
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(28, 80, 175, 0.55);
+        backdrop-filter: blur(2px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 22px;
+        color: white;
+        text-shadow: 0 0 8px white;
+        opacity: 0;
+        transition: 0.25s ease-in-out;
+    }
+
+    .game-card:hover .overlay {
+        opacity: 1;
+    }
+
+    /* TABLE VIEW */
+    #tableView {
+        display: none;
+        width: 95%;
+        margin: auto;
+        padding: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        color: #d8e7ff;
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #1e90ff33;
+        text-align: left;
+    }
+
 </style>
-
 </head>
 <body>
 
-<div class="navbar">🎮 Games Library</div>
+<h1>HaptechZone Game List</h1>
 
-<div class="controls">
-    <input id="search" class="search-box" type="text" placeholder="Search games...">
-    <select id="priceFilter">
-        <option value="">Filter by Price</option>
-        <option value="low">Below 500</option>
-        <option value="mid">500–1000</option>
-        <option value="high">Above 1000</option>
+<div id="filters">
+    <input id="searchInput" type="text" placeholder="Search games..." oninput="applyFilters()">
+
+    <select id="priceFilter" onchange="applyFilters()">
+        <option value="All">All Prices</option>
+        <option value="0">₱0 (Free)</option>
+        <option value="500">₱0–₱500</option>
+        <option value="1000">₱500–₱1000</option>
+        <option value="2000">₱1000–₱2000</option>
     </select>
 
-    <button onclick="setView('grid')">Grid View</button>
-    <button onclick="setView('table')">Table View</button>
-
-    <button class="filter-btn" onclick="setCategory('All')">All</button>
-    <button class="filter-btn" onclick="setCategory('Adventure')">Adventure</button>
+    <!-- CATEGORY BUTTONS -->
+    <button class="filter-btn active" onclick="setCategory('All')">All</button>
     <button class="filter-btn" onclick="setCategory('RPG')">RPG</button>
     <button class="filter-btn" onclick="setCategory('Fighting')">Fighting</button>
     <button class="filter-btn" onclick="setCategory('Indie')">Indie</button>
     <button class="filter-btn" onclick="setCategory('Anime')">Anime</button>
 </div>
 
-<div id="gridContainer" class="grid-view"></div>
-<div id="tableContainer" class="table-view"></div>
+<div id="viewToggle">
+    <button onclick="showCards()">Card View</button>
+    <button onclick="showTable()">Table View</button>
+</div>
+
+<!-- CARD VIEW -->
+<div id="cardView"></div>
+
+<!-- TABLE VIEW -->
+<div id="tableView">
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Category</th>
+<th>Status</th>
+<th>Fix</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+</div>
 
 <script>
-// Google Sheet JSON link
-const sheetURL =
- "https://docs.google.com/spreadsheets/d/1LMTiIt9qwhdCwDNC5dWl49AIg6dH3gAr_0nqcOr1kOc/gviz/tq?tqx=out:json";
-
 let games = [];
-let activeCategory = "All";
+let selectedCategory = "All";
 
-// Primary multi-source cover getter
-async function getCoverURL(gameName) {
-    const cleanName = encodeURIComponent(gameName.trim());
-
-    // 1) Steam unofficial search
-    try {
-        const steamSearch = await fetch(`https://steamsearch-aio.vercel.app/api?q=${cleanName}`);
-        const res = await steamSearch.json();
-
-        if (res && res.length > 0) {
-            const appid = res[0].appid;
-            const steamCover = `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900.jpg`;
-
-            // Try loading image quickly
-            const test = await fetch(steamCover);
-            if (test.ok) return steamCover;
-        }
-    } catch (e) {}
-
-    // 2) SteamGridDB no-API image
-    const sgdb = `https://grid-images.vercel.app/${cleanName}.jpg`;
-    try {
-        const test2 = await fetch(sgdb);
-        if (test2.ok) return sgdb;
-    } catch (e) {}
-
-    // 3) DuckDuckGo fallback proxy
-    const duck = `https://duckduckgo-image-proxy.vercel.app/?q=${cleanName}+game+cover`;
-    try {
-        const test3 = await fetch(duck);
-        if (test3.ok) return duck;
-    } catch (e) {}
-
-    // 4) Final fallback
-    return "https://via.placeholder.com/300x450?text=No+Cover";
-}
-
-// Render functions
-function render() {
-    let filtered = games;
-
-    // Search
-    const searchValue = document.getElementById("search").value.toLowerCase();
-    filtered = filtered.filter(g => g.name.toLowerCase().includes(searchValue));
-
-    // Category
-    if (activeCategory !== "All") {
-        filtered = filtered.filter(g => g.category === activeCategory);
-    }
-
-    // Price
-    const price = document.getElementById("priceFilter").value;
-    if (price === "low") filtered = filtered.filter(g => g.price < 500);
-    if (price === "mid") filtered = filtered.filter(g => g.price >= 500 && g.price <= 1000);
-    if (price === "high") filtered = filtered.filter(g => g.price > 1000);
-
-    renderGrid(filtered);
-    renderTable(filtered);
-}
-
-async function renderGrid(list) {
-    const grid = document.getElementById("gridContainer");
-    grid.innerHTML = "";
-
-    for (const g of list) {
-        const cover = await getCoverURL(g.name);
-
-        grid.innerHTML += `
-            <div class="card">
-                <img src="${cover}">
-                <div><strong>${g.name}</strong></div>
-                <div style="font-size:14px;opacity:0.7">${g.category}</div>
-                <div style="font-size:14px;color:#c77dff">₱${g.price}</div>
-            </div>
-        `;
-    }
-}
-
-function renderTable(list) {
-    let html = `
-        <table>
-        <tr>
-            <th>Name</th><th>Category</th><th>Status</th><th>Fix</th><th>Price</th>
-        </tr>
-    `;
-
-    list.forEach(g => {
-        html += `
-        <tr>
-            <td>${g.name}</td>
-            <td>${g.category}</td>
-            <td>${g.status}</td>
-            <td>${g.fix}</td>
-            <td>${g.price}</td>
-        </tr>`;
-    });
-
-    html += "</table>";
-    document.getElementById("tableContainer").innerHTML = html;
-}
-
-// Category filter
 function setCategory(cat) {
-    activeCategory = cat;
-    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-    event.target.classList.add("active");
-    render();
+    selectedCategory = cat;
+
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    applyFilters();
 }
 
-// Switch views
-function setView(v) {
-    document.getElementById("gridContainer").style.display = (v === "grid" ? "grid" : "none");
-    document.getElementById("tableContainer").style.display = (v === "table" ? "block" : "none");
+function showCards() {
+    cardView.style.display = "grid";
+    tableView.style.display = "none";
 }
 
-// Event listeners
-document.getElementById("search").addEventListener("input", render);
-document.getElementById("priceFilter").addEventListener("change", render);
+function showTable() {
+    cardView.style.display = "none";
+    tableView.style.display = "block";
+}
 
-// Load sheet data
-fetch(sheetURL)
-.then(res => res.text())
-.then(text => {
+/* LOAD GOOGLE SHEET */
+async function loadData() {
+    const url = "YOUR_SHEET_URL_HERE";
+    const res = await fetch(url);
+    const text = await res.text();
     const json = JSON.parse(text.substring(47, text.length - 2));
+
     games = json.table.rows.map(r => ({
         name: r.c[0]?.v || "",
         category: r.c[1]?.v || "",
@@ -286,8 +251,74 @@ fetch(sheetURL)
         price: r.c[4]?.v || ""
     }));
 
-    render();
-});
+    renderCards(games);
+    renderTable(games);
+}
+
+function applyFilters() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const price = document.getElementById("priceFilter").value;
+
+    const filtered = games.filter(g => {
+        const matchSearch = g.name.toLowerCase().includes(search);
+        const matchCat = selectedCategory === "All" || g.category === selectedCategory;
+        const matchPrice = price === "All" || Number(g.price) <= Number(price);
+
+        return matchSearch && matchCat && matchPrice;
+    });
+
+    renderCards(filtered);
+    renderTable(filtered);
+}
+
+/* RENDER CARD GRID */
+function renderCards(list) {
+    cardView.innerHTML = "";
+
+    list.forEach(g => {
+        const card = document.createElement("div");
+        card.className = "game-card";
+
+        const img = document.createElement("img");
+        img.className = "game-cover";
+        img.src = `https://game-covers.vercel.app/api/search?name=${encodeURIComponent(g.name)}`;
+
+        const info = document.createElement("div");
+        info.className = "game-info";
+        info.innerHTML = `
+            <div class="game-title">${g.name}</div>
+            <div class="price-tag">₱${g.price}</div>
+        `;
+
+        const overlay = document.createElement("div");
+        overlay.className = "overlay";
+        overlay.textContent = `Status: ${g.status}`;
+
+        card.appendChild(img);
+        card.appendChild(info);
+        card.appendChild(overlay);
+
+        cardView.appendChild(card);
+    });
+}
+
+/* RENDER TABLE */
+function renderTable(list) {
+    tableBody.innerHTML = "";
+    list.forEach(g => {
+        tableBody.innerHTML += `
+            <tr>
+                <td>${g.name}</td>
+                <td>${g.category}</td>
+                <td>${g.status}</td>
+                <td>${g.fix}</td>
+                <td>${g.price}</td>
+            </tr>
+        `;
+    });
+}
+
+loadData();
 </script>
 
 </body>
