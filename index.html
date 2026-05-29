@@ -2,122 +2,122 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Games List</title>
+<title>Games Library</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-    body {
-        background: #0a0a0f;
-        color: #eee;
-        font-family: 'Segoe UI', sans-serif;
-        margin: 0;
-        padding: 0;
-    }
+/* Global */
+body {
+    background: #0a0a0f;
+    color: #eee;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-    /* NAVBAR */
-    .navbar {
-        width: 100%;
-        background: #141422;
-        padding: 15px 25px;
-        color: #c77dff;
-        font-size: 22px;
-        font-weight: bold;
-        border-bottom: 2px solid #5a189a;
-        box-shadow: 0 0 15px #5a189a55;
-    }
+/* Navbar */
+.navbar {
+    width: 100%;
+    background: #141422;
+    padding: 15px 25px;
+    color: #c77dff;
+    font-size: 22px;
+    font-weight: bold;
+    border-bottom: 2px solid #5a189a;
+    box-shadow: 0 0 15px #5a189a55;
+}
 
-    /* Layout containers */
-    .controls {
-        padding: 20px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        align-items: center;
-    }
+/* Filters & Controls */
+.controls {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
 
-    input, select, button {
-        padding: 10px 14px;
-        border-radius: 6px;
-        border: none;
-        font-size: 15px;
-    }
+input, select, button {
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: none;
+    font-size: 15px;
+}
+.search-box {
+    width: 250px;
+}
 
-    .search-box {
-        width: 250px;
-    }
+button {
+    cursor: pointer;
+    background: #5a189a;
+    color: white;
+    border: 1px solid #7b2cbf;
+    transition: 0.2s;
+}
+button:hover {
+    background: #7b2cbf;
+}
 
-    button {
-        cursor: pointer;
-        background: #5a189a;
-        color: white;
-        border: 1px solid #7b2cbf;
-        transition: 0.2s;
-    }
-    button:hover {
-        background: #7b2cbf;
-    }
+.filter-btn {
+    background: #1b1b2f;
+    border: 1px solid #5a189a;
+}
+.filter-btn.active {
+    background: #7b2cbf;
+}
 
-    .filter-btn {
-        background: #1b1b2f;
-        border: 1px solid #5a189a;
-    }
-    .filter-btn.active {
-        background: #7b2cbf;
-    }
+/* Grid View */
+.grid-view {
+    padding: 20px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
 
-    /* Grid Cards */
-    .grid-view {
-        padding: 20px;
-        display: grid;
-        gap: 20px;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    }
+/* Game Cards */
+.card {
+    background: #11111a;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #5a189a55;
+    box-shadow: 0 0 10px #5a189a33;
+    transition: 0.2s;
+    text-align: center;
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #7b2cbf;
+}
 
-    .card {
-        background: #11111a;
-        padding: 10px;
-        border-radius: 10px;
-        border: 1px solid #5a189a55;
-        box-shadow: 0 0 10px #5a189a33;
-        transition: 0.2s;
-        text-align: center;
-    }
-    .card:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px #7b2cbf;
-    }
+.card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
 
-    .card img {
-        width: 100%;
-        height: 230px;
-        object-fit: cover;
-        border-radius: 8px;
-        margin-bottom: 10px;
-    }
+/* Table View */
+.table-view {
+    display: none;
+    padding: 20px;
+}
 
-    /* Table View */
-    .table-view {
-        display: none;
-        padding: 20px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background: #11111a;
-        color: white;
-    }
-
-    th, td {
-        padding: 12px;
-        border-bottom: 1px solid #333;
-        text-align: left;
-    }
-
-    th {
-        background: #5a189a66;
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #11111a;
+    color: white;
+}
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #333;
+    text-align: left;
+}
+th {
+    background: #5a189a66;
+}
 </style>
+
 </head>
 <body>
 
@@ -125,7 +125,6 @@
 
 <div class="controls">
     <input id="search" class="search-box" type="text" placeholder="Search games...">
-
     <select id="priceFilter">
         <option value="">Filter by Price</option>
         <option value="low">Below 500</option>
@@ -146,41 +145,64 @@
 <div id="tableContainer" class="table-view"></div>
 
 <script>
+// Google Sheet JSON link
 const sheetURL =
  "https://docs.google.com/spreadsheets/d/1LMTiIt9qwhdCwDNC5dWl49AIg6dH3gAr_0nqcOr1kOc/gviz/tq?tqx=out:json";
 
 let games = [];
 let activeCategory = "All";
 
-fetch(sheetURL)
-.then(res => res.text())
-.then(text => {
-    const json = JSON.parse(text.substring(47, text.length - 2));
-    games = json.table.rows.map(r => ({
-        name: r.c[0]?.v || "",
-        category: r.c[1]?.v || "",
-        status: r.c[2]?.v || "",
-        fix: r.c[3]?.v || "",
-        price: r.c[4]?.v || ""
-    }));
+// Primary multi-source cover getter
+async function getCoverURL(gameName) {
+    const cleanName = encodeURIComponent(gameName.trim());
 
-    render();
-});
+    // 1) Steam unofficial search
+    try {
+        const steamSearch = await fetch(`https://steamsearch-aio.vercel.app/api?q=${cleanName}`);
+        const res = await steamSearch.json();
 
-function coverURL(name) {
-    return `https://grid-images.vercel.app/${encodeURIComponent(name)}.jpg`;
+        if (res && res.length > 0) {
+            const appid = res[0].appid;
+            const steamCover = `https://cdn.cloudflare.steamstatic.com/steam/apps/${appid}/library_600x900.jpg`;
+
+            // Try loading image quickly
+            const test = await fetch(steamCover);
+            if (test.ok) return steamCover;
+        }
+    } catch (e) {}
+
+    // 2) SteamGridDB no-API image
+    const sgdb = `https://grid-images.vercel.app/${cleanName}.jpg`;
+    try {
+        const test2 = await fetch(sgdb);
+        if (test2.ok) return sgdb;
+    } catch (e) {}
+
+    // 3) DuckDuckGo fallback proxy
+    const duck = `https://duckduckgo-image-proxy.vercel.app/?q=${cleanName}+game+cover`;
+    try {
+        const test3 = await fetch(duck);
+        if (test3.ok) return duck;
+    } catch (e) {}
+
+    // 4) Final fallback
+    return "https://via.placeholder.com/300x450?text=No+Cover";
 }
 
+// Render functions
 function render() {
     let filtered = games;
 
+    // Search
     const searchValue = document.getElementById("search").value.toLowerCase();
     filtered = filtered.filter(g => g.name.toLowerCase().includes(searchValue));
 
+    // Category
     if (activeCategory !== "All") {
         filtered = filtered.filter(g => g.category === activeCategory);
     }
 
+    // Price
     const price = document.getElementById("priceFilter").value;
     if (price === "low") filtered = filtered.filter(g => g.price < 500);
     if (price === "mid") filtered = filtered.filter(g => g.price >= 500 && g.price <= 1000);
@@ -190,20 +212,22 @@ function render() {
     renderTable(filtered);
 }
 
-function renderGrid(list) {
+async function renderGrid(list) {
     const grid = document.getElementById("gridContainer");
     grid.innerHTML = "";
 
-    list.forEach(g => {
+    for (const g of list) {
+        const cover = await getCoverURL(g.name);
+
         grid.innerHTML += `
             <div class="card">
-                <img src="${coverURL(g.name)}" onerror="this.src='https://via.placeholder.com/300x450?text=No+Cover'">
+                <img src="${cover}">
                 <div><strong>${g.name}</strong></div>
-                <div>${g.category}</div>
-                <div>₱${g.price}</div>
+                <div style="font-size:14px;opacity:0.7">${g.category}</div>
+                <div style="font-size:14px;color:#c77dff">₱${g.price}</div>
             </div>
         `;
-    });
+    }
 }
 
 function renderTable(list) {
@@ -226,13 +250,10 @@ function renderTable(list) {
     });
 
     html += "</table>";
-
     document.getElementById("tableContainer").innerHTML = html;
 }
 
-document.getElementById("search").addEventListener("input", render);
-document.getElementById("priceFilter").addEventListener("change", render);
-
+// Category filter
 function setCategory(cat) {
     activeCategory = cat;
     document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
@@ -240,10 +261,31 @@ function setCategory(cat) {
     render();
 }
 
+// Switch views
 function setView(v) {
     document.getElementById("gridContainer").style.display = (v === "grid" ? "grid" : "none");
     document.getElementById("tableContainer").style.display = (v === "table" ? "block" : "none");
 }
+
+// Event listeners
+document.getElementById("search").addEventListener("input", render);
+document.getElementById("priceFilter").addEventListener("change", render);
+
+// Load sheet data
+fetch(sheetURL)
+.then(res => res.text())
+.then(text => {
+    const json = JSON.parse(text.substring(47, text.length - 2));
+    games = json.table.rows.map(r => ({
+        name: r.c[0]?.v || "",
+        category: r.c[1]?.v || "",
+        status: r.c[2]?.v || "",
+        fix: r.c[3]?.v || "",
+        price: r.c[4]?.v || ""
+    }));
+
+    render();
+});
 </script>
 
 </body>
